@@ -25,67 +25,67 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 
-/**
- *
- * @author Federico
- */
+/** @author Federico */
 public abstract class CustomColorSelector extends JPanel {
-
-    private static final int DEFAULT_WIDTH = (int) (160 * Main.SCALE),
-            DEFAULT_HEIGHT = (int) (60 * Main.SCALE),
-            GRAYSCALE_HEIGHT = (int) (8 * Main.SCALE);
-
-    private static final float BASE_SATURATION = 0.65f;
-
-    public CustomColorSelector() {
-        setLayout(null);
-        setPreferredSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                setCursor(Cursor.getDefaultCursor());
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-                try {
-                    //we read the color clicked by the user
-                    BufferedImage b = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
-                    printAll(b.getGraphics());
-                    int color = b.getRGB(e.getX(), e.getY());
-                    onColorSelected(new Color(color)); //callback
-                } catch (Throwable t) {
-                    //coordinates can be out of bounds if the user drags the cursor around, ignore
-                }
-            }
-
-        });
-    }
-
-    @Override
-    public void paint(Graphics g) {
-        float width = getWidth(), height = getHeight() - GRAYSCALE_HEIGHT, fx, fy;
-        //colors
-        for (float y = 0; y < height; y++) {
-            for (float x = 0; x < width; x++) {
-                fx = x / width;
-                fy = y / height;
-                g.setColor(Color.getHSBColor(fx, fy < 0.5f ? (BASE_SATURATION - BASE_SATURATION * 2 * (0.5f - fy)) : BASE_SATURATION, fy < 0.5f ? 1f : (1 - (2 * (fy - 0.5f)))));
-                g.fillRect((int) x, (int) y, 1, 1);
-            }
-        }
-        //grays
-        for (float x = 0; x < width; x++) {
-            g.setColor(Color.getHSBColor(0, 0, x / width));
-            g.fillRect((int) x, getHeight() - GRAYSCALE_HEIGHT, 1, GRAYSCALE_HEIGHT);
-        }
-    }
-
-    public abstract void onColorSelected(Color c);
-
+	private static final long serialVersionUID = Main.calcVersionId(CustomColorSelector.class);
+	private static final float BASE_SATURATION = 0.65f;
+	private static final int DEFAULT_WIDTH = (int) (160 * Main.SCALE),
+							 DEFAULT_HEIGHT = (int) (60 * Main.SCALE),
+							 GRAYSCALE_HEIGHT = (int) (8 * Main.SCALE);
+	
+	public CustomColorSelector() {
+		setLayout(null);
+		setPreferredSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
+		addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				setCursor(Cursor.getDefaultCursor());
+			}
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				try {
+					// we read the color clicked by the user
+					BufferedImage b = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
+					printAll(b.getGraphics());
+					onColorSelected(new Color(b.getRGB(e.getX(), e.getY()))); // callback
+				} catch (Throwable t) {
+					// coordinates can be out of bounds if the user drags the cursor around, ignore
+					System.out.println("Ignored out-of-bounds mouse coordinates");
+				}
+			}
+			
+		});
+	}
+	
+	@Override
+	public void paint(Graphics g) {
+		float width = getWidth(), height = getHeight() - GRAYSCALE_HEIGHT, fx, fy;
+		
+		//Colors
+		for (float y = 0; y < height; y++) {
+			for (float x = 0; x < width; x++) {
+				fx = x / width;
+				fy = y / height;
+				g.setColor(Color.getHSBColor(fx,
+						fy < 0.5f ? (BASE_SATURATION - BASE_SATURATION * 2 * (0.5f - fy)) : BASE_SATURATION,
+						fy < 0.5f ? 1f : (1 - (2 * (fy - 0.5f)))));
+				g.fillRect((int) x, (int) y, 1, 1);
+			}
+		}
+		
+		//Grays
+		for (float x = 0; x < width; x++) {
+			g.setColor(Color.getHSBColor(0, 0, x / width));
+			g.fillRect((int) x, getHeight() - GRAYSCALE_HEIGHT, 1, GRAYSCALE_HEIGHT);
+		}
+	}
+	
+	public abstract void onColorSelected(Color c);
+	
 }
