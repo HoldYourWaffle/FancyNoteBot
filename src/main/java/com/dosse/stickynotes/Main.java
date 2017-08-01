@@ -321,7 +321,7 @@ public class Main {
         try {
             return Font.createFont(Font.TRUETYPE_FONT, Main.class.getResourceAsStream(pathInClasspath));
         } catch (Throwable ex) {
-		ex.printStackTrace();
+        	ex.printStackTrace();
             return null;
         }
     }
@@ -341,9 +341,9 @@ public class Main {
     /**
      * fonts
      */
-    public static final Font BASE_FONT = loadFont("/com/dosse/stickynotes/fonts/OpenSans-Regular.ttf").deriveFont(TEXT_SIZE),
+    public static final Font BASE_FONT = loadFont("/fonts/OpenSans-Regular.ttf").deriveFont(TEXT_SIZE),
             SMALL_FONT = BASE_FONT.deriveFont(TEXT_SIZE_SMALL),
-            BUTTON_FONT = loadFont("/com/dosse/stickynotes/fonts/OpenSans-Bold.ttf").deriveFont(BUTTON_TEXT_SIZE);
+            BUTTON_FONT = loadFont("/fonts/OpenSans-Bold.ttf").deriveFont(BUTTON_TEXT_SIZE);
     /**
      * colors for swing MetalTheme
      */
