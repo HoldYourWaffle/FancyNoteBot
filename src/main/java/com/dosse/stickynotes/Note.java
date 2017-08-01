@@ -66,7 +66,7 @@ import javax.swing.undo.UndoManager;
  */
 public class Note extends JDialog {
 	private static final long serialVersionUID = Main.calcVersionId(Note.class);
-	private static final ResourceBundle locBundle = ResourceBundle.getBundle("com/dosse/stickynotes/locale/locale");
+	private static final ResourceBundle locBundle = ResourceBundle.getBundle("locale/locale");
 	
 	/**
 	 * Returns localized string
