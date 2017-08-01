@@ -202,7 +202,7 @@ public class Note extends JDialog {
 			}
 		});
 		setTitle(getLocString("APPNAME"));
-		setIconImage(loadImage("/com/dosse/stickynotes/icon.png"));
+		setIconImage(loadImage("/icon.png"));
 		setUndecorated(true);
 		
 		// now we will create and initialize all the elements inside the note
