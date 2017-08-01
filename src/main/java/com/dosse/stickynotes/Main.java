@@ -321,6 +321,7 @@ public class Main {
         try {
             return Font.createFont(Font.TRUETYPE_FONT, Main.class.getResourceAsStream(pathInClasspath));
         } catch (Throwable ex) {
+		ex.printStackTrace();
             return null;
         }
     }
