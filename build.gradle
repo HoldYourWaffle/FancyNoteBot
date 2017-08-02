@@ -30,4 +30,13 @@ launch4j {
 	//icon = 'src/main/resources/icon.ico'
 }
 
-build.finalizedBy(createExe)
+task createSetup doLast {
+	println 'Test'
+	exec {
+		commandLine "wine", "/home/ravi/.wine/drive_c/users/ravi/Inno Setup 5/ISCC.exe", "/Q", "z:/home/ravi/Coding/FancyNoteBot/setup.iss"
+	}
+	//wine ~/.wine/drive_c/users/ravi/Inno\ Setup\ 5/ISCC.exe /Q "z:\home\ravi\Coding\FancyNoteBot\setup.iss"
+}
+
+tasks.createSetup.dependsOn(createExe)
+build.finalizedBy(createSetup)
