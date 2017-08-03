@@ -6,6 +6,10 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'edu.sc.seis.launch4j'
 
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+version = '1.5.0.11'
+
 repositories {
 	jcenter()
 	mavenCentral()
@@ -19,11 +23,34 @@ jar {
 }
 
 launch4j {
+	jar = 'build/libs/StickyNotes.jar'
+	outfile = 'StickyNotes.exe' //correct directory?
+	priority = 'idle'
+	icon = 'src/main/resources/icon.ico' //correct directory?
+	bundledJrePath = 'windows-jre/'
+	jvmOptions = ['-Dsun.java2d.dpiaware=true']
+	
+	//the versions should be set automatically but for some reason it doesn't...
+	//productVersion = 'project.version'
+	//txtProductVersion = 'project.version'
+	version = project.version
+	textVersion = project.version
+	fileDescription = 'NoteBot - A clone of Microsoft Sticky Notes'
+	copyright = 'Federico Dossena'
+	productName = 'NoteBot'
+	companyName = 'Federico Dossena'
+	internalName = 'StickyNotes'
+	//originalFilename = 'StickyNotes.exe'
+	trademarks = ''
+	language = 'ENGLISH_US'
+	
+	
+	
 	/*mainClassName = 'com.dosse.stickynotes.Main'
 	//icon = 'src/main/resources/icon.ico'
 	outputDir = 'libs/Windows'
 	outfile = 'StickyNotes.exe'*/
-	xmlFileName = 'launch4j.xml'
+	//bundledJrePath = 'windows-jre/'
 }
 
 task createSetup doLast {
