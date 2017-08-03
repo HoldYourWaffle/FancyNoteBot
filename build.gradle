@@ -19,10 +19,11 @@ jar {
 }
 
 launch4j {
-	mainClassName = 'com.dosse.stickynotes.Main'
+	/*mainClassName = 'com.dosse.stickynotes.Main'
 	//icon = 'src/main/resources/icon.ico'
 	outputDir = 'libs/Windows'
-	outfile = 'StickyNotes.exe'
+	outfile = 'StickyNotes.exe'*/
+	xmlFileName = 'launch4j.xml'
 }
 
 task createSetup doLast {

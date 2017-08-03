@@ -21,6 +21,7 @@ Name: "italian"; MessagesFile: "compiler:Languages\Italian.isl"
 
 [Files]
 Source: "build/libs/StickyNotes.jar"; DestDir: "{app}";
+Source: "build/launch4j/StickyNotes.exe"; DestDir: "{app}";
 Source: "windows-jre/*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs sortfilesbyextension;
   
 [Icons]
