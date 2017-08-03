@@ -1,10 +1,10 @@
 buildscript {
 	repositories { jcenter() }
-	dependencies { classpath 'edu.sc.seis.gradle:launch4j:2.4.0' }
+	//dependencies { classpath 'edu.sc.seis.gradle:launch4j:2.4.0' }
 }
 
 apply plugin: 'java'
-apply plugin: 'edu.sc.seis.launch4j'
+//apply plugin: 'edu.sc.seis.launch4j'
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
@@ -22,7 +22,22 @@ jar {
 	archivesBaseName = 'StickyNotes'
 }
 
-launch4j {
+task createSetup doLast {
+	exec { commandLine "wine", "/home/ravi/.wine/drive_c/users/ravi/Inno Setup 5/ISCC.exe", "/Q", "z:/home/ravi/Coding/FancyNoteBot/setup.iss" }
+}
+
+task createExe doLast {
+	copy {
+		from jar.archivePath
+		into 'build/tmp/launch4j/'
+		rename(jar.archivePath.name, 'executable.jar')
+	}
+	exec { commandLine "launch4j/launch4j", "launch4j.xml" }
+}
+tasks.createExe.dependsOn(jar)
+tasks.createSetup.dependsOn(createExe)
+
+/*launch4j {
 	jar = 'build/libs/StickyNotes.jar'
 	outfile = 'StickyNotes.exe' //correct directory?
 	priority = 'idle'
@@ -49,13 +64,7 @@ launch4j {
 	/*mainClassName = 'com.dosse.stickynotes.Main'
 	//icon = 'src/main/resources/icon.ico'
 	outputDir = 'libs/Windows'
-	outfile = 'StickyNotes.exe'*/
+	outfile = 'StickyNotes.exe'*\/
 	//bundledJrePath = 'windows-jre/'
-}
-
-task createSetup doLast {
-	exec { commandLine "wine", "/home/ravi/.wine/drive_c/users/ravi/Inno Setup 5/ISCC.exe", "/Q", "z:/home/ravi/Coding/FancyNoteBot/setup.iss" }
-}
-
-tasks.createSetup.dependsOn(createExe)
-build.finalizedBy(createSetup)
+}*/
+//build.finalizedBy(createSetup)
