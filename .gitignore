@@ -33,4 +33,7 @@ desktop.ini
 lock
 dist
 test
+
+# Downloaded libraries
 windows-jre/
+launch4j/
