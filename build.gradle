@@ -30,14 +30,18 @@ task createExe doLast {
 		into 'build/tmp/launch4j/'
 		rename(jar.archivePath.name, 'executable.jar')
 	}
-
-	javaexec {
-		main = "-jar";
-		args = [
-			"cross-compiling/launch4j/launch4j.jar",
-			"cross-compiling/launch4j.xml"
-			]
+	
+	ext.launch4j = { name ->
+    	javaexec {
+			main = "-jar";
+			args = [
+				"cross-compiling/launch4j/launch4j.jar",
+				"cross-compiling/"+name
+				]
+		}
 	}
+	
+	launch4j("cfg-require-jre-bundle.launch4j.xml")
 }
 
 tasks.createExe.dependsOn(jar)
