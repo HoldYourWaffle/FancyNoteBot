@@ -22,6 +22,7 @@ build/tmp
 ignored/
 *.bat
 *.log
+!gradlew.bat
 desktop.ini
 /build/
 
