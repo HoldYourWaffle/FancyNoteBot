@@ -34,11 +34,10 @@ task createExe doLast {
 	javaexec {
 		main = "-jar";
 		args = [
-			"cross-compiling/libs/launch4j/launch4j.jar",
+			"cross-compiling/launch4j/launch4j.jar",
 			"cross-compiling/launch4j.xml"
 			]
 	}
-	//exec { commandLine "cross-compiling/libs/launch4j/launchj.jar", "launch4j.xml" }
 }
 
 tasks.createExe.dependsOn(jar)

@@ -2,8 +2,8 @@
 <launch4jConfig>
 	<!-- <dontWrapJar>true</dontWrapJar> -->
 	<headerType>gui</headerType>
-	<jar>build/tmp/launch4j/executable.jar</jar>
-	<outfile>build/libs/StickyNotes-windows.exe</outfile>
+	<jar>../build/tmp/launch4j/executable.jar</jar>
+	<outfile>../build/libs/StickyNotes-windows.exe</outfile>
 	<errTitle></errTitle>
 	<cmdLine></cmdLine>
 	<chdir>.</chdir>
@@ -13,9 +13,9 @@
 	<stayAlive>false</stayAlive>
 	<restartOnCrash>false</restartOnCrash>
 	<manifest></manifest>
-	<icon>src/main/resources/icon.ico</icon>
+	<icon>../src/main/resources/icon.ico</icon>
 	<jre>
-		<path>windows-jre</path>
+		<path>windows-jre/</path>
 		<bundledJre64Bit>false</bundledJre64Bit> <!-- am I sure? -->
 		<bundledJreAsFallback>true</bundledJreAsFallback>
 		<minVersion></minVersion>
