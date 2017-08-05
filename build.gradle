@@ -32,7 +32,7 @@ task createExe doLast {
 	}
 	
 	ext.launch4j = { name ->
-    	javaexec {
+		javaexec {
 			main = "-jar";
 			args = [
 				"cross-compiling/launch4j/launch4j.jar",
