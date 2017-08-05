@@ -42,6 +42,7 @@ task createExe doLast {
 	}
 	
 	launch4j("cfg-require-jre-bundle.launch4j.xml")
+	launch4j("cfg-portable-slim.launch4j.xml")
 }
 
 tasks.createExe.dependsOn(jar)
