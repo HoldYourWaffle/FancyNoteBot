@@ -93,8 +93,9 @@ public class Main {
 			
 			// check if the folder exists: if it doesn't exist, create it; if a file already exists with that name, use fallback paths
 			File f = new File(home);
-			if (f.exists()) if (!f.isDirectory()) throw new Exception();
-			else {
+			if (f.exists()) {
+				if (!f.isDirectory()) throw new Exception();
+			} else {
 				Path p = Paths.get(home);
 				Files.createDirectories(p);
 			}
@@ -340,6 +341,7 @@ public class Main {
 	
 	public static void main(String args[]) {
 		if (alreadyRunning()) { // if the app is already running, it terminates the current instance
+			System.out.println("Dying because I exist");
 			System.exit(1);
 		}
 		
