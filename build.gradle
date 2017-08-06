@@ -1,3 +1,5 @@
+import org.apache.tools.ant.taskdefs.condition.Os
+
 buildscript {
 	repositories { jcenter() }
 }
@@ -20,9 +22,15 @@ jar {
 	archivesBaseName = 'StickyNotes'
 }
 
-/*task createSetup doLast {
-	exec { commandLine "wine", "/home/ravi/.wine/drive_c/users/ravi/Inno Setup 5/ISCC.exe", "/Q", "z:/home/ravi/Coding/FancyNoteBot/setup.iss" }
-}*/
+task createSetup doLast {
+	if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+		println "I'm on Windows so I can do native execution :)"
+		exec { commandLine "cross-compiling/inno-setup/ISCC.exe", "cross-compiling/create-setup.iss" }
+	} else {
+		println "I'm not on Windows so I have to rely on wine :("
+		exec { commandLine "wine", "cross-compiling/inno-setup/ISCC.exe", "cross-compiling/create-setup.iss" }
+	}
+}
 
 task createExe doLast {
 	copy {
@@ -45,5 +53,5 @@ task createExe doLast {
 }
 
 tasks.createExe.dependsOn(jar)
-//tasks.createSetup.dependsOn(createExe)
+tasks.createSetup.dependsOn(createExe)
 //build.finalizedBy(createSetup)

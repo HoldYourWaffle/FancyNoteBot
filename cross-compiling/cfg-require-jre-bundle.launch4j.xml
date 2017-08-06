@@ -15,7 +15,7 @@
 	<manifest></manifest>
 	<icon>../src/main/resources/icon.ico</icon>
 	<jre>
-		<path>windows-jre/</path>
+		<path>runtime/</path>
 		<bundledJre64Bit>false</bundledJre64Bit> <!-- am I sure? -->
 		<bundledJreAsFallback>true</bundledJreAsFallback>
 		<minVersion></minVersion>

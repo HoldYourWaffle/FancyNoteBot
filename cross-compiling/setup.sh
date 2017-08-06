@@ -24,3 +24,17 @@ echo "Extracting Windows JRE..."
 unzip -q "jre.zip"
 mv java-* extract/ # rename version-independent directory into a uniform directory to prevent confusion
 mv extract/jre/ "$scriptdir/windows-jre/"
+
+cd $scriptdir # reset again
+
+# DOWNLOADING INNO-SETUP
+echo "Downloading Inno-Setup..."
+rm -fr "inno-setup"
+mkdir -p "../build/tmp/inno-setup" && cd "$_" # more temps
+wget "http://www.jrsoftware.org/download.php/is.exe" -nv -O "setup.exe" # download setup program (I think this dynamically downloads the latest version?)
+echo "================== THIS IS VERY VERY IMPORTANT =================="
+echo "Next up the Inno-Setup setup program will be run. You MUST set the installation directory to this exact location:"
+echo "$scriptdir/inno-setup"
+echo "===================== END OF VERY IMPORTANT ===================="
+read -p "Press [Enter] to continue"
+wine "setup.exe"

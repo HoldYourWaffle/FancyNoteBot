@@ -37,3 +37,5 @@ test
 # Downloaded libraries
 windows-jre/
 launch4j/
+inno-setup/
+create-setup-highcompression.iss
