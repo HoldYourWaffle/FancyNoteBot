@@ -24,3 +24,17 @@ echo "Extracting Windows JRE..."
 unzip -q "jre.zip"
 mv java-* extract/ # rename version-independent directory into a uniform directory to prevent confusion
 mv extract/jre/ "$scriptdir/windows-jre/"
+
+cd $scriptdir # reset
+
+# DOWNLOADING ALZIP
+echo "Downloading ALZip..."
+rm -fr "alzip"
+mkdir -p "../build/tmp/alzip" && cd "$_" # temp
+wget "http://advert.estsoft.com/?event=201010121143876" -nv -O "alzip.exe" # download alzip
+echo "================== THIS IS VERY VERY IMPORTANT =================="
+echo "Next up the Inno-Setup setup program will be run. You MUST set the installation directory to this exact location:"
+echo "$scriptdir/alzip"
+echo "===================== END OF VERY IMPORTANT ===================="
+read -p "Press [Enter] to continue"
+wine "alzip.exe"
