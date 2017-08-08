@@ -12,6 +12,7 @@ wget "https://downloads.sourceforge.net/project/launch4j/launch4j-3/3.11/launch4
 echo "Extracting Launch4j..."
 tar xf "launch4j.tgz"
 mv "launch4j/" "$scriptdir/" # move extracted launch4j distro into the cross-compiling directory
+echo "Set up launch4j"
 
 cd $scriptdir # reset for convenience
 
@@ -24,6 +25,7 @@ echo "Extracting Windows JRE..."
 unzip -q "jre.zip"
 mv java-* extract/ # rename version-independent directory into a uniform directory to prevent confusion
 mv extract/jre/ "$scriptdir/windows-jre/"
+echo "Set up Windows JRE"
 
 cd $scriptdir # reset again
 
@@ -38,6 +40,7 @@ echo "$scriptdir/inno-setup"
 echo "===================== END OF VERY IMPORTANT ===================="
 read -p "Press [Enter] to continue"
 wine "setup.exe"
+echo "Set up Inno-Setup"
 
 cd $scriptdir # reset
 
@@ -52,3 +55,6 @@ echo "$scriptdir/alzip"
 echo "===================== END OF VERY IMPORTANT ===================="
 read -p "Press [Enter] to continue"
 wine "alzip.exe"
+echo "Set up ALZip"
+
+echo "Done!"
