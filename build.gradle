@@ -1,16 +1,58 @@
+import org.apache.tools.ant.taskdefs.condition.Os
+
+buildscript {
+	repositories { jcenter() }
+}
+
 apply plugin: 'java'
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+version = '1.5.0.11'
 
 repositories {
 	jcenter()
 	mavenCentral()
 }
 
-dependencies {
-	
-}
+dependencies { }
 
 jar {
-	manifest {
-		attributes 'Main-Class': 'com.dosse.stickynotes.Main'
+	manifest { attributes 'Main-Class': 'com.dosse.stickynotes.Main' }
+	archivesBaseName = 'StickyNotes'
+}
+
+task createSetup doLast {
+	if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+		println "I'm on Windows so I can do native execution :)"
+		exec { commandLine "cross-compiling/inno-setup/ISCC.exe", "cross-compiling/create-setup.iss" }
+	} else {
+		println "I'm not on Windows so I have to rely on wine :("
+		exec { commandLine "wine", "cross-compiling/inno-setup/ISCC.exe", "cross-compiling/create-setup.iss" }
 	}
 }
+
+task createExe doLast {
+	copy {
+		from jar.archivePath
+		into 'build/tmp/launch4j/'
+		rename(jar.archivePath.name, 'executable.jar')
+	}
+	
+	ext.launch4j = { name ->
+		javaexec {
+			main = "-jar";
+			args = [
+				"cross-compiling/launch4j/launch4j.jar",
+				"cross-compiling/"+name
+				]
+		}
+	}
+	
+	launch4j("cfg-require-jre-bundle.launch4j.xml")
+	launch4j("cfg-portable-slim.launch4j.xml")
+}
+
+tasks.createExe.dependsOn(jar)
+tasks.createSetup.dependsOn(createExe)
+//build.finalizedBy(createSetup)

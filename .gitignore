@@ -33,3 +33,11 @@ desktop.ini
 lock
 dist
 test
+
+# Downloaded libraries
+windows-jre/
+launch4j/
+inno-setup/
+alzip/
+
+create-setup-highcompression.iss
