@@ -18,13 +18,13 @@ cd $scriptdir # reset for convenience
 
 # DOWNLOADING WINDOWS-JRE
 echo "Downloading Windows JRE..."
-rm -fr "windows-jre"
+rm -fr "runtime"
 mkdir -p "../build/tmp/jre" && cd "$_" # another temp extraction folder
 wget "https://github.com/ojdkbuild/ojdkbuild/releases/download/1.8.0.141-1/java-1.8.0-openjdk-1.8.0.141-1.b16.ojdkbuild.windows.x86_64.zip" -nv -O "jre.zip" # download community build openjdk-distributions
 echo "Extracting Windows JRE..."
 unzip -q "jre.zip"
 mv java-* extract/ # rename version-independent directory into a uniform directory to prevent confusion
-mv extract/jre/ "$scriptdir/windows-jre/"
+mv extract/jre/ "$scriptdir/runtime/"
 echo "Set up Windows JRE"
 
 cd $scriptdir # reset again
@@ -43,18 +43,5 @@ wine "setup.exe"
 echo "Set up Inno-Setup"
 
 cd $scriptdir # reset
-
-# DOWNLOADING ALZIP
-echo "Downloading ALZip..."
-rm -fr "alzip"
-mkdir -p "../build/tmp/alzip" && cd "$_" # temp
-wget "http://advert.estsoft.com/?event=201010121143876" -nv -O "alzip.exe" # download alzip
-echo "================== THIS IS VERY VERY IMPORTANT =================="
-echo "Next up the Inno-Setup setup program will be run. You MUST set the installation directory to this exact location:"
-echo "$scriptdir/alzip"
-echo "===================== END OF VERY IMPORTANT ===================="
-read -p "Press [Enter] to continue"
-wine "alzip.exe"
-echo "Set up ALZip"
 
 echo "Done!"

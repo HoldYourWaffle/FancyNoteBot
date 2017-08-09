@@ -3,7 +3,7 @@
   <dontWrapJar>false</dontWrapJar>
   <headerType>gui</headerType>
   <jar>../build/tmp/launch4j/executable.jar</jar>
-  <outfile>../build/libs/StickyNotes-windows.exe</outfile>
+  <outfile>../build/libs/StickyNotes-windows-portable.exe</outfile>
   <errTitle></errTitle>
   <cmdLine></cmdLine>
   <chdir>.</chdir>
