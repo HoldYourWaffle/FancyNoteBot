@@ -1,43 +1,41 @@
-# NoteBot
-NoteBot is a clone of Microsoft Sticky Notes, without useless functionalities.
+# *Fancy*NoteBot
+FancyNoteBot is a clone of [NoteBot](http://notebot.fdossena.com/) (wich is a clone of Microsoft Sticky Notes without useless functionalities) and adds some of those "useless" functionalities back in. (But it still removes alot of uselessness.)
 
 ## Download
-[Installer for Windows](http://downloads.fdossena.com/geth.php?r=stickynotes-win)
-
-[Deb Package for Ubuntu, Debian, ...](http://downloads.fdossena.com/geth.php?r=stickynotes-deb)
-
-[Binaries for other platforms](http://downloads.fdossena.com/geth.php?r=stickynotes-bin) (Requires Java)
-
-## Website
-[NoteBot](http://notebot.fdossena.com/)
+-- WORK IN PROGRESS --
 
 ## Features
-* Stick notes on your desktop
-* Can move, resize and zoom
-* Custom colors
-* Auto startup
-* Support for high DPI screens and touch devices
+#### Same as NoteBot
+- Stick notes on your desktop
+- Can move, resize and zoom
+- Custom colors
+- Auto startup
+- Support for high DPI screens and touch devices
+#### *Fancy* features
+- Major cleanup of the codebase (PR coming soon)
+- Auto updater (WIP)
+- Synchronisation (WIP)
 
 ## Lack of features
-Sticky Notes became trash with the August 2016 update of Windows 10, which turned it into a "modern" app, and added useless and suspicious features like synchronization and telemetry. Therefore...
+Altough most (if not all) of my *fancyfications* go directly against the original intentions of non-fancy [NoteBot](http://notebot.fdossena.com/).
+To quote [NoteBot](http://notebot.fdossena.com/) developer [Federico Dossena](https://github.com/adolfintel):
+> Sticky Notes became trash with the August 2016 update of Windows 10, which turned it into a "modern" app, and added useless and suspicious features like synchronization and telemetry.
 
-* Not a "modern" app: you can obliterate all Metro apps from your PC
-* No taskbar icon: notes actually stick to the desktop
-* No synchronization
-* No telemetry
-* Not even an auto updater
-* No botnet: it's open source, you can trust this application
-* And most importantly: no ugly Segoe Script font
+These "features" from [NoteBot](http://notebot.fdossena.com/) have survived *fancyfication*:
+- Not a "modern" app, you can obliterate all Metro apps from your PC
+- No taskbar icon, notes actually stick to the desktop
+~~- No synchronization~~
+~~- No auto updater~~
+- No telemetry
+- No botnet, it's open source, you can trust this application
+- No ugly Segoe Script font
 
 ## Compatibility
-* Windows XP or newer
-* Any platform supported by Java SE 7 or newer
+- Windows XP or newer
+- Any platform supported by Java SE 7 or newer
  
 ## Usage
-Import the projects into Netbeans.
-
-_SETUP contains all the files used to build the Windows installer and the .deb package.
-To build the Windows installer, you'll need [Inno Setup](http://www.jrsoftware.org/isinfo.php) and [launch4j](http://launch4j.sourceforge.net/).
+-- WORK IN PROGRESS --
 
 ## Screenshots
 ![Screenshot](http://fdossena.com/stickynotes/screen1_15.png)
