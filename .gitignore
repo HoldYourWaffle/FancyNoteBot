@@ -1,0 +1,35 @@
+# eclipse
+bin
+*.launch
+.settings
+.metadata
+.classpath
+.project
+
+# idea
+out
+*.ipr
+*.iws
+*.iml
+.idea
+
+# gradle
+.gradle
+build/classes
+build/tmp
+
+# general
+ignored/
+*.bat
+*.log
+!gradlew.bat
+desktop.ini
+/build/
+
+# notebot
+*.dat
+*.dat.bak
+*.dat.bak.2
+lock
+dist
+test

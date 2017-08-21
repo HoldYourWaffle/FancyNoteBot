@@ -1,7 +1,0 @@
-*.dat
-*.dat.bak
-*.dat.bak.2
-lock
-build
-dist
-test
