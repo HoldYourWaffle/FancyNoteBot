@@ -129,7 +129,7 @@ public class AboutDialog extends JDialog {
 		main.add(close);
 		
 		pack();
-		setLocation((int) (50 * Main.SCALE), (int) (50 * Main.SCALE));
+		setLocationRelativeTo(null);
 		setIconImage((Image) ver.getIcon());
 	}
 	
