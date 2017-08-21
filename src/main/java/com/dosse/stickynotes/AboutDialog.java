@@ -74,7 +74,7 @@ public class AboutDialog extends JDialog {
 		JLabel title = new JLabel();
 		title.setFont(Main.BASE_FONT.deriveFont(36f * Main.SCALE));
 		title.setText("  " + locBundle.getString("APPNAME"));
-		title.setIcon(loadScaled("/com/dosse/stickynotes/icon.png", 0.5f));
+		title.setIcon(loadScaled("../../../icon.png", 0.5f));
 		title.setHorizontalAlignment(SwingConstants.CENTER);
 		title.setBounds(0, 0, main.getWidth(), (int) (96f * Main.SCALE));
 		main.add(title);
@@ -129,7 +129,7 @@ public class AboutDialog extends JDialog {
 		main.add(close);
 		
 		pack();
-		setLocation((int) (50 * Main.SCALE), (int) (50 * Main.SCALE));
+		setLocationRelativeTo(null);
 		setIconImage((Image) ver.getIcon());
 	}
 	
