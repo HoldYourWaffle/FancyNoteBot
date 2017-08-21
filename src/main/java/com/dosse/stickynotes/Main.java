@@ -469,4 +469,7 @@ public class Main {
         buffer.clear();
         return r;
     }
+
+	/** @author HoldYourWaffle */
+	public static int countNotes() { return notes.size(); }
 }

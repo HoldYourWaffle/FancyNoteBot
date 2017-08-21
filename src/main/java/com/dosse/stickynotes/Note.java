@@ -106,7 +106,7 @@ public class Note extends JDialog {
 	private static final Color[] WHITE_SCHEME = new Color[] { new Color(245, 245, 245), new Color(230, 230, 230),
 			new Color(245, 245, 245), new Color(100, 100, 100), new Color(255, 255, 255), new Color(0, 0, 0),
 			new Color(136, 195, 255), new Color(0, 0, 0) };
-	private static final Color[] DEFAULT_SCHEME = YELLOW_SCHEME;
+	private static final Color[][] COLOR_SCHEMES = new Color[][] { YELLOW_SCHEME, ORANGE_SCHEME, BLUE_SCHEME, GREEN_SCHEME, PINK_SCHEME, PURPLE_SCHEME, RED_SCHEME, WHITE_SCHEME };
 	// </editor-fold>
 	
 	/**
@@ -341,7 +341,7 @@ public class Note extends JDialog {
 		
 		// initialize color selection menu (right click on top bar)
 		colorMenu = new JPopupMenu();
-		colorMenu.add(new ColorSelector(new Color[][] { YELLOW_SCHEME, ORANGE_SCHEME, BLUE_SCHEME, GREEN_SCHEME, PINK_SCHEME, PURPLE_SCHEME, RED_SCHEME, WHITE_SCHEME }) {
+		colorMenu.add(new ColorSelector(COLOR_SCHEMES) {
 			//Can't dynamically calculate this because of anonymous-classes and java-compiler bs
 			private static final long serialVersionUID = 1L;
 			
@@ -432,8 +432,8 @@ public class Note extends JDialog {
 		layout.setVerticalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addComponent(wrapper1, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
 		getContentPane().setLayout(layout);
 		pack(); // fuck my shit up fam
-		setColorScheme(DEFAULT_SCHEME); // set default color scheme (yellow)
-		// and we're done
+		
+		setColorScheme(COLOR_SCHEMES[Main.countNotes() % COLOR_SCHEMES.length]);
 	}
 	
 	/** setLocation method is overridden to force the note to stay on the screen */
