@@ -288,29 +288,30 @@ public class Note extends JDialog {
 			}
 		});
 		
-		
+		float s = .7f;
+		int tsw = (int)(100*s), tsh = (int)(36*s); 
 		// initialize copy-paste menu
 		copyPasteMenu = new JPopupMenu();
 		cut = new JMenuItem(getLocString("CUT"));
-		cut.setPreferredSize(new Dimension((int) (100 * Main.SCALE), (int) (36 * Main.SCALE)));
+		cut.setPreferredSize(new Dimension((int) (tsw * Main.SCALE), (int) (tsh * Main.SCALE)));
 		cut.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) { text.cut(); }
 		});
 		
 		copy = new JMenuItem(getLocString("COPY"));
-		copy.setPreferredSize(new Dimension((int) (100 * Main.SCALE), (int) (36 * Main.SCALE)));
+		copy.setPreferredSize(new Dimension((int) (tsw * Main.SCALE), (int) (tsh * Main.SCALE)));
 		copy.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) { text.copy(); }
 		});
 		
 		paste = new JMenuItem(getLocString("PASTE"));
-		paste.setPreferredSize(new Dimension((int) (100 * Main.SCALE), (int) (36 * Main.SCALE)));
+		paste.setPreferredSize(new Dimension((int) (tsw * Main.SCALE), (int) (tsh * Main.SCALE)));
 		paste.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) { text.paste(); }
 		});
 		
 		delete = new JMenuItem(getLocString("DELETE"));
-		delete.setPreferredSize(new Dimension((int) (100 * Main.SCALE), (int) (36 * Main.SCALE)));
+		delete.setPreferredSize(new Dimension((int) (tsw * Main.SCALE), (int) (tsh * Main.SCALE)));
 		delete.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -321,7 +322,7 @@ public class Note extends JDialog {
 		});
 		
 		selectAll = new JMenuItem(getLocString("SELECTALL"));
-		selectAll.setPreferredSize(new Dimension((int) (100 * Main.SCALE), (int) (36 * Main.SCALE)));
+		selectAll.setPreferredSize(new Dimension((int) (tsw * Main.SCALE), (int) (tsh * Main.SCALE)));
 		selectAll.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -392,7 +393,7 @@ public class Note extends JDialog {
 		colorMenu.add(new JPopupMenu.Separator());
 		
 		JMenuItem m = new JMenuItem(getLocString("ABOUT"));
-		m.setPreferredSize(new Dimension((int) (100 * Main.SCALE), (int) (36 * Main.SCALE)));
+		m.setPreferredSize(new Dimension((int) (tsw * Main.SCALE), (int) (tsh * Main.SCALE)));
 		m.addActionListener(new ActionListener() {
 			@Override public void actionPerformed(ActionEvent e) { new AboutDialog(null, true).setVisible(true); }
 		});
