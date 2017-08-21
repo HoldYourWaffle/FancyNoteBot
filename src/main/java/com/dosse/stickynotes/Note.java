@@ -256,7 +256,7 @@ public class Note extends JDialog {
 		setPreferredSize(new Dimension((int) (190 * Main.SCALE), (int) (170 * Main.SCALE))); // default size is 190x170
 		setLocation(MouseInfo.getPointerInfo().getLocation()); // new note is placed at current mouse coordinates
 		
-		newNote.setFont(new FontUIResource(Main.BUTTON_FONT));
+		newNote.setFont(new FontUIResource(Main.BUTTON_BIG_FONT));
 		newNote.setText("+");
 		newNote.setBorderPainted(false);
 		newNote.setContentAreaFilled(false);

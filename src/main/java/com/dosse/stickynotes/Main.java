@@ -66,11 +66,11 @@ public class Main {
 	private static ByteBuffer buffer = ByteBuffer.allocate(Long.BYTES);
 	
 	public static final float SCALE = calculateScale(); // used for DPI scaling. multiply each size by this factor.
-	public static final float TEXT_SIZE = 12f * SCALE, TEXT_SIZE_SMALL = 11f * SCALE, BUTTON_TEXT_SIZE = 11f * SCALE; // default
-																										// scaling
+	public static final float TEXT_SIZE = 12f * SCALE, TEXT_SIZE_SMALL = 11f * SCALE, BUTTON_TEXT_SIZE = 11f * SCALE; // default scaling
 	public static final Font BASE_FONT = loadFont("/fonts/OpenSans-Regular.ttf").deriveFont(TEXT_SIZE),
 			SMALL_FONT = BASE_FONT.deriveFont(TEXT_SIZE_SMALL),
-			BUTTON_FONT = loadFont("/fonts/OpenSans-Bold.ttf").deriveFont(BUTTON_TEXT_SIZE);
+			BUTTON_FONT = loadFont("/fonts/OpenSans-Bold.ttf").deriveFont(BUTTON_TEXT_SIZE),
+			BUTTON_BIG_FONT = BUTTON_FONT.deriveFont(BUTTON_TEXT_SIZE*1.3f);
 
 	private static final ColorUIResource METAL_PRIMARY1 = new ColorUIResource(220, 220, 220),
 			METAL_PRIMARY2 = new ColorUIResource(220, 220, 220), METAL_PRIMARY3 = new ColorUIResource(220, 220, 220),
