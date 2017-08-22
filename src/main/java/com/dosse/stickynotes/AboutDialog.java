@@ -63,14 +63,17 @@ public class AboutDialog extends JFrame {
 		setResizable(false);
 		setTitle(locBundle.getString("ABOUT"));
 		
-		Image i;
-		try { i = ImageIO.read(AboutDialog.class.getResource("/icon.png")); }
-		catch (Exception ex) {
+		Image icoLogo, icoInfo;
+		try {
+			icoLogo = ImageIO.read(AboutDialog.class.getResource("/icon.png"));
+			icoInfo = ImageIO.read(AboutDialog.class.getResource("/info.png"));
+		} catch (Exception ex) {
 			System.err.println("Something went wrong while loading the icon");
 			ex.printStackTrace();
-			i = nullImage;
+			icoLogo = nullImage;
+			icoInfo = nullImage;
 		}
-		setIconImage(i);
+		setIconImage(icoInfo);
 		
 		JPanel main = new JPanel();
 		main.setLayout(null);
@@ -82,7 +85,7 @@ public class AboutDialog extends JFrame {
 		JLabel title = new JLabel();
 		title.setFont(Main.BASE_FONT.deriveFont(36f * Main.SCALE));
 		title.setText("  " + locBundle.getString("APPNAME"));
-		title.setIcon(scaleImage(i, 0.5f));
+		title.setIcon(scaleImage(icoLogo, 0.5f));
 		title.setHorizontalAlignment(SwingConstants.CENTER);
 		title.setBounds(0, 0, main.getWidth(), (int) (96f * Main.SCALE));
 		main.add(title);
