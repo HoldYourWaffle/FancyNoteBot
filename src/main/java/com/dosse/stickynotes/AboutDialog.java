@@ -20,7 +20,6 @@ import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Frame;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -33,17 +32,18 @@ import java.util.ResourceBundle;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
+import javax.swing.WindowConstants;
 
 /**
  *
  * @author Federico
  */
-public class AboutDialog extends JDialog {
+public class AboutDialog extends JFrame {
 	private static final long serialVersionUID = Main.calcVersionId(AboutDialog.class);
 	
 	private static final int DEFAULT_WIDTH 	= (int) (400 * Main.SCALE),
@@ -56,13 +56,21 @@ public class AboutDialog extends JDialog {
 		nullImage.setRGB(0, 0, 0);
 	}
 	
-	public AboutDialog(Frame parent, boolean modal) {
-		super(parent, modal);
-		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+	public AboutDialog() {
+		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		setLayout(null);
 		setPreferredSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
 		setResizable(false);
 		setTitle(locBundle.getString("ABOUT"));
+		
+		Image i;
+		try { i = ImageIO.read(AboutDialog.class.getResource("/icon.png")); }
+		catch (Exception ex) {
+			System.err.println("Something went wrong while loading the icon");
+			ex.printStackTrace();
+			i = nullImage;
+		}
+		setIconImage(i);
 		
 		JPanel main = new JPanel();
 		main.setLayout(null);
@@ -74,7 +82,7 @@ public class AboutDialog extends JDialog {
 		JLabel title = new JLabel();
 		title.setFont(Main.BASE_FONT.deriveFont(36f * Main.SCALE));
 		title.setText("  " + locBundle.getString("APPNAME"));
-		title.setIcon(loadScaled("../../../icon.png", 0.5f));
+		title.setIcon(scaleImage(i, 0.5f));
 		title.setHorizontalAlignment(SwingConstants.CENTER);
 		title.setBounds(0, 0, main.getWidth(), (int) (96f * Main.SCALE));
 		main.add(title);
@@ -130,7 +138,6 @@ public class AboutDialog extends JDialog {
 		
 		pack();
 		setLocationRelativeTo(null);
-		setIconImage((Image) ver.getIcon());
 	}
 	
 	/**
@@ -143,13 +150,12 @@ public class AboutDialog extends JDialog {
 	 *            etc. DPI SCALING IS ALWAYS PERFORMED!
 	 * @return ImageIcon, or an empty ImageIcon of dimension WxH if something went wrong
 	 */
-	private static final ImageIcon loadScaled(String pathInClasspath, float customScale) {
+	private static final ImageIcon scaleImage(Image i, float customScale) {
 		try {
-			Image i = ImageIO.read(AboutDialog.class.getResource(pathInClasspath));
 			return new ImageIcon(i.getScaledInstance((int) (i.getWidth(null) * Main.SCALE * customScale),
 													 (int) (i.getHeight(null) * Main.SCALE * customScale), Image.SCALE_SMOOTH));
 		} catch (Exception ex) {
-			System.err.println("Something went wrong while loading a "+customScale+"-scaled image of "+pathInClasspath);
+			System.err.println("Something went wrong while loading a "+customScale+"-scaled image");
 			ex.printStackTrace();
 			return new ImageIcon(nullImage);
 		}

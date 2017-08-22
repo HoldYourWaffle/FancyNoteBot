@@ -395,7 +395,7 @@ public class Note extends JDialog {
 		JMenuItem m = new JMenuItem(getLocString("ABOUT"));
 		m.setPreferredSize(new Dimension((int) (tsw * Main.SCALE), (int) (tsh * Main.SCALE)));
 		m.addActionListener(new ActionListener() {
-			@Override public void actionPerformed(ActionEvent e) { new AboutDialog(null, true).setVisible(true); }
+			@Override public void actionPerformed(ActionEvent e) { new AboutDialog().setVisible(true); }
 		});
 		colorMenu.add(m);
 		
