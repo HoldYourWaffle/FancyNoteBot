@@ -288,11 +288,16 @@ public class Main {
 	 *
 	 * @return true if the application is already running, false otherwise (in this case, the lockfile remains locked until the process is closed)
 	 */
-	private static boolean alreadyRunning() { //CHECK now that the FileChannel doesn't leak, does the locking still work?
-		try(FileChannel ch = new RandomAccessFile(new File(LOCK_PATH), "rw").getChannel();) {
+	private static boolean alreadyRunning() {
+		try {
+			@SuppressWarnings("resource")
+			FileChannel ch = new RandomAccessFile(new File(LOCK_PATH), "rw").getChannel();
 			if (ch.tryLock() != null) return false;
-			else return true;
-		} catch (Exception e) { return true; }
+			else {
+				ch.close();
+				return true;
+			}
+		} catch (Exception t) { return true; }
 	}
 	
 	public static Dimension getExtendedScreenResolution() {
