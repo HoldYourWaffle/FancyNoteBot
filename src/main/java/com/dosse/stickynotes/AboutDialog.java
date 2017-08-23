@@ -48,7 +48,7 @@ public class AboutDialog extends JDialog {
 	
 	private static final int DEFAULT_WIDTH 	= (int) (400 * Main.SCALE),
 							 DEFAULT_HEIGHT = (int) (380 * Main.SCALE);
-	private static final ResourceBundle locBundle = ResourceBundle.getBundle("locale/locale"); //CHECK is this correct for the gradle resource packaging?
+	private static final ResourceBundle locBundle = ResourceBundle.getBundle("locale/locale");
 	private static final BufferedImage nullImage; // empty Image, used for errors XXX kindof a dirty way to handle errors isn't it?
 	
 	static {
@@ -99,7 +99,7 @@ public class AboutDialog extends JDialog {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				try {
-					Desktop.getDesktop().browse(new URI(url.getText())); //TODO errors in this area are most likely caused by a headless-machine, check for this at start?
+					Desktop.getDesktop().browse(new URI(url.getText()));
 				} catch (Exception ex) {
 					System.err.println("Error while opening URL in browser");
 					ex.printStackTrace();

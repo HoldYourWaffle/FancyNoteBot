@@ -17,6 +17,7 @@
 package com.dosse.stickynotes;
 
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontFormatException;
@@ -109,6 +110,114 @@ public class Main {
 		BACKUP2_PATH = home + "sticky.dat.bak.2"; // temp path for previous backup while current one is being backed up
 		LOCK_PATH = home + "lock"; // lock file to prevent multiple instances of StickyNotes to run on the same storage
 	}
+	
+	
+	public static void main(String args[]) {
+		if (!Desktop.isDesktopSupported()) {
+			System.out.println("This application doesn't work on headless systems.");
+			System.exit(1);
+		}
+		
+		if (alreadyRunning()) { // if the app is already running, it terminates the current instance
+			System.out.println("Dying because I exist");
+			System.exit(1);
+		}
+		
+		/*
+		 * If the app is started with the -autostartup flag, it doesn't create an empty note 
+		 * (on windows the app is run when the system starts and it would be silly to create a new note when the system boots)
+		 */
+		noAutoCreate = (args.length == 1 && args[0].equalsIgnoreCase("-autostartup"));
+		
+		//Apply swing MetalTheme, scroll down and ignore
+		// <editor-fold defaultstate="collapsed" desc="MetalTheme">
+		MetalLookAndFeel.setCurrentTheme(new MetalTheme() {
+			private final FontUIResource REGULAR_FONT = new FontUIResource(Main.BASE_FONT),
+					 					 SMALL_FONT = new FontUIResource(Main.SMALL_FONT);
+			
+			@Override protected ColorUIResource getPrimary1() { return METAL_PRIMARY1; }
+			@Override protected ColorUIResource getPrimary2() { return METAL_PRIMARY2; }
+			@Override protected ColorUIResource getPrimary3() { return METAL_PRIMARY3; }
+			@Override protected ColorUIResource getSecondary1() { return METAL_SECONDARY1; }
+			@Override protected ColorUIResource getSecondary2() { return METAL_SECONDARY2; }
+			@Override protected ColorUIResource getSecondary3() { return DEFAULT_BACKGROUND; }
+			@Override public String getName() { return "Metal Theme"; }
+			@Override public FontUIResource getControlTextFont() { return REGULAR_FONT; }
+			@Override public FontUIResource getSystemTextFont() { return REGULAR_FONT; }
+			@Override public FontUIResource getUserTextFont() { return REGULAR_FONT; }
+			@Override public FontUIResource getMenuTextFont() { return SMALL_FONT; }
+			@Override public FontUIResource getWindowTitleFont() { return REGULAR_FONT; }
+			@Override public FontUIResource getSubTextFont() { return REGULAR_FONT; }
+		});
+		
+		try {
+			UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+		} catch (ReflectiveOperationException e) {
+			System.out.println("WARNING: Metal look and feel doesn't exist on this JRE for some reason");
+		} catch (UnsupportedLookAndFeelException e) {
+			System.out.println("System doesn't support Metal look and feel");
+		}
+		// </editor-fold>
+		
+		if (!loadState()) if (!noAutoCreate) newNote();
+		saveState();
+		
+		//If there are no saved notes and none were created automatically (-autostartup flag), close the app
+		if (notes.isEmpty()) {
+			System.out.println("No saved notes and -autostartup flag meaning my life is pointless. Goodbye :)");
+			System.exit(0);
+		}
+		
+		//This thread autosaves the notes every 60 seconds
+		new Thread() {
+			@Override
+			public void run() {
+				setPriority(Thread.MIN_PRIORITY);
+				while (true) try {
+					sleep(60000L);
+					synchronized (notes) {
+						if (notes.isEmpty()) {
+							return;
+						}
+						saveState();
+					}
+				} catch (InterruptedException e) { e.printStackTrace(); }
+			}
+		}.start();
+		
+		//This thread checks the notes every 1 second to make sure they're still inside the screen (in case the resolution changes) CHECK performance hit? -> seperate rescue method
+		new Thread() {
+			@Override
+			public void run() {
+				setPriority(Thread.MIN_PRIORITY);
+				while (true) try {
+					sleep(1000L);
+					synchronized (notes) {
+						if (notes.isEmpty()) return;
+						for (Note n : notes) n.setLocation(n.getPreferredLocation());
+					}
+				} catch (InterruptedException e) { e.printStackTrace(); }
+			}
+		}.start();
+		
+		//This thread calls the java gc every 5 minutes to keep ram usage low
+		new Thread() {
+			@Override
+			public void run() {
+				setPriority(Thread.MIN_PRIORITY);
+				while (true) try {
+					sleep(300000L);
+					synchronized (notes) {
+						if (notes.isEmpty()) return; 
+						else System.gc();
+					}
+				} catch (InterruptedException e) { e.printStackTrace(); }
+			}
+		}.start();
+		
+		System.gc(); // cleanup after starting
+	}
+	
 	
 	/**
 	 * Saves currently open notes to the main storage, and turns the previous
@@ -341,108 +450,6 @@ public class Main {
 	private static float calculateScale() {
 		float dpi = Toolkit.getDefaultToolkit().getScreenResolution();
 		return (dpi < 64 ? 64 : dpi) / 80f;
-	}
-	
-	
-	public static void main(String args[]) {
-		if (alreadyRunning()) { // if the app is already running, it terminates the current instance
-			System.out.println("Dying because I exist");
-			System.exit(1);
-		}
-		
-		/*
-		 * If the app is started with the -autostartup flag, it doesn't create an empty note 
-		 * (on windows the app is run when the system starts and it would be silly to create a new note when the system boots)
-		 */
-		noAutoCreate = (args.length == 1 && args[0].equalsIgnoreCase("-autostartup"));
-		
-		//Apply swing MetalTheme, scroll down and ignore
-		// <editor-fold defaultstate="collapsed" desc="MetalTheme">
-		MetalLookAndFeel.setCurrentTheme(new MetalTheme() {
-			private final FontUIResource REGULAR_FONT = new FontUIResource(Main.BASE_FONT),
-					 					 SMALL_FONT = new FontUIResource(Main.SMALL_FONT);
-			
-			@Override protected ColorUIResource getPrimary1() { return METAL_PRIMARY1; }
-			@Override protected ColorUIResource getPrimary2() { return METAL_PRIMARY2; }
-			@Override protected ColorUIResource getPrimary3() { return METAL_PRIMARY3; }
-			@Override protected ColorUIResource getSecondary1() { return METAL_SECONDARY1; }
-			@Override protected ColorUIResource getSecondary2() { return METAL_SECONDARY2; }
-			@Override protected ColorUIResource getSecondary3() { return DEFAULT_BACKGROUND; }
-			@Override public String getName() { return "Metal Theme"; }
-			@Override public FontUIResource getControlTextFont() { return REGULAR_FONT; }
-			@Override public FontUIResource getSystemTextFont() { return REGULAR_FONT; }
-			@Override public FontUIResource getUserTextFont() { return REGULAR_FONT; }
-			@Override public FontUIResource getMenuTextFont() { return SMALL_FONT; }
-			@Override public FontUIResource getWindowTitleFont() { return REGULAR_FONT; }
-			@Override public FontUIResource getSubTextFont() { return REGULAR_FONT; }
-		});
-		
-		try {
-			UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
-		} catch (ReflectiveOperationException e) {
-			System.out.println("WARNING: Metal look and feel doesn't exist on this JRE for some reason");
-		} catch (UnsupportedLookAndFeelException e) {
-			System.out.println("System doesn't support Metal look and feel");
-		}
-		// </editor-fold>
-		
-		if (!loadState()) if (!noAutoCreate) newNote();
-		saveState();
-		
-		//If there are no saved notes and none were created automatically (-autostartup flag), close the app
-		if (notes.isEmpty()) {
-			System.out.println("No saved notes and -autostartup flag meaning my life is pointless. Goodbye :)");
-			System.exit(0);
-		}
-		
-		//This thread autosaves the notes every 60 seconds
-		new Thread() {
-			@Override
-			public void run() {
-				setPriority(Thread.MIN_PRIORITY);
-				while (true) try {
-					sleep(60000L);
-					synchronized (notes) {
-						if (notes.isEmpty()) {
-							return;
-						}
-						saveState();
-					}
-				} catch (InterruptedException e) { e.printStackTrace(); }
-			}
-		}.start();
-		
-		//This thread checks the notes every 1 second to make sure they're still inside the screen (in case the resolution changes) CHECK performance hit? -> seperate rescue method
-		new Thread() {
-			@Override
-			public void run() {
-				setPriority(Thread.MIN_PRIORITY);
-				while (true) try {
-					sleep(1000L);
-					synchronized (notes) {
-						if (notes.isEmpty()) return;
-						for (Note n : notes) n.setLocation(n.getPreferredLocation());
-					}
-				} catch (InterruptedException e) { e.printStackTrace(); }
-			}
-		}.start();
-		
-		//This thread calls the java gc every 5 minutes to keep ram usage low
-		new Thread() {
-			@Override
-			public void run() {
-				setPriority(Thread.MIN_PRIORITY);
-				while (true) try {
-					sleep(300000L);
-					synchronized (notes) {
-						if (notes.isEmpty()) return; 
-						else System.gc();
-					}
-				} catch (InterruptedException e) { e.printStackTrace(); }
-			}
-		}.start();
-		
-		System.gc(); // cleanup after starting
 	}
 	
 	/** @author HoldYourWaffle */
