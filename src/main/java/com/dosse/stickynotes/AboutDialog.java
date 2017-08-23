@@ -25,7 +25,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
 import java.net.URI;
 import java.util.ResourceBundle;
 
@@ -49,12 +48,6 @@ public class AboutDialog extends JFrame {
 	private static final int DEFAULT_WIDTH 	= (int) (400 * Main.SCALE),
 							 DEFAULT_HEIGHT = (int) (380 * Main.SCALE);
 	private static final ResourceBundle locBundle = ResourceBundle.getBundle("locale/locale");
-	private static final BufferedImage nullImage; // empty Image, used for errors XXX kindof a dirty way to handle errors isn't it?
-	
-	static {
-		nullImage = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
-		nullImage.setRGB(0, 0, 0);
-	}
 	
 	public AboutDialog() {
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -63,15 +56,12 @@ public class AboutDialog extends JFrame {
 		setResizable(false);
 		setTitle(locBundle.getString("ABOUT"));
 		
-		Image icoLogo, icoInfo;
-		try {
-			icoLogo = ImageIO.read(AboutDialog.class.getResource("/icon.png"));
-			icoInfo = ImageIO.read(AboutDialog.class.getResource("/info.png"));
-		} catch (Exception ex) {
-			System.err.println("Something went wrong while loading the icon");
+		Image icoInfo;
+		try { icoInfo = ImageIO.read(AboutDialog.class.getResource("/info.png")); }
+		catch (Exception ex) {
+			System.err.println("Something went wrong while loading the info-icon");
 			ex.printStackTrace();
-			icoLogo = nullImage;
-			icoInfo = nullImage;
+			icoInfo = Main.NULL_IMAGE;
 		}
 		setIconImage(icoInfo);
 		
@@ -85,7 +75,7 @@ public class AboutDialog extends JFrame {
 		JLabel title = new JLabel();
 		title.setFont(Main.BASE_FONT.deriveFont(36f * Main.SCALE));
 		title.setText("  " + locBundle.getString("APPNAME"));
-		title.setIcon(scaleImage(icoLogo, 0.5f));
+		title.setIcon(scaleImage(Main.LOGO, 0.05f));
 		title.setHorizontalAlignment(SwingConstants.CENTER);
 		title.setBounds(0, 0, main.getWidth(), (int) (96f * Main.SCALE));
 		main.add(title);
@@ -160,7 +150,7 @@ public class AboutDialog extends JFrame {
 		} catch (Exception ex) {
 			System.err.println("Something went wrong while loading a "+customScale+"-scaled image");
 			ex.printStackTrace();
-			return new ImageIcon(nullImage);
+			return new ImageIcon(Main.NULL_IMAGE);
 		}
 	}
 }

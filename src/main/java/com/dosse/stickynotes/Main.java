@@ -26,6 +26,7 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -45,6 +46,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import javax.imageio.ImageIO;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.ColorUIResource;
@@ -78,6 +80,9 @@ public class Main {
 			METAL_SECONDARY1 = new ColorUIResource(240, 240, 240),
 			METAL_SECONDARY2 = new ColorUIResource(240, 240, 240),
 			DEFAULT_BACKGROUND = new ColorUIResource(255, 255, 255);
+	
+	public static BufferedImage LOGO; // not final because of compiler bs
+	public static final BufferedImage NULL_IMAGE; // empty Image, used for errors XXX kindof a dirty way to handle errors isn't it?
 
 	static {
 		String os = System.getProperty("os.name").toLowerCase();
@@ -109,6 +114,16 @@ public class Main {
 		BACKUP_PATH = home + "sticky.dat.bak"; // backup in case main storage is corrupt
 		BACKUP2_PATH = home + "sticky.dat.bak.2"; // temp path for previous backup while current one is being backed up
 		LOCK_PATH = home + "lock"; // lock file to prevent multiple instances of StickyNotes to run on the same storage
+		
+		NULL_IMAGE = new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB);
+		NULL_IMAGE.setRGB(0, 0, 0);
+		
+		try { LOGO = ImageIO.read(Main.class.getResource("/icon.png")); }
+		catch (Exception ex) {
+			System.err.println("Something went wrong while loading the logo");
+			ex.printStackTrace();
+			LOGO = NULL_IMAGE;
+		}
 	}
 	
 	
