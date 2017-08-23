@@ -16,6 +16,7 @@
  */
 package com.dosse.stickynotes;
 
+import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Dimension;
@@ -23,9 +24,14 @@ import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.SystemTray;
 import java.awt.Toolkit;
+import java.awt.TrayIcon;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -182,6 +188,23 @@ public class Main {
 			System.out.println("No saved notes and -autostartup flag meaning my life is pointless. Goodbye :)");
 			System.exit(0);
 		}
+		
+		
+		if (SystemTray.isSupported()) {
+			int trayIconWidth = new TrayIcon(LOGO).getSize().width;
+			TrayIcon tray = new TrayIcon(LOGO.getScaledInstance(trayIconWidth, -1, Image.SCALE_SMOOTH));
+			
+			tray.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseReleased(MouseEvent e) {
+					for (Note n : notes) n.toFront();
+				}
+			});
+			
+			try { SystemTray.getSystemTray().add(tray); }
+			catch (AWTException e) { throw new Error("The system-tray isn't supported but it passed the SystemTray.isSupported test", e); }
+		} else System.out.println("No system-tray supported, that's gonna make things harder for the user (not that I really care)");
+		
 		
 		//This thread autosaves the notes every 60 seconds
 		new Thread() {
