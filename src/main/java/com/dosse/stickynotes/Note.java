@@ -133,8 +133,10 @@ public class Note extends JDialog {
 		try {
 			Transferable contents = Toolkit.getDefaultToolkit().getSystemClipboard().getContents(null);
 			return (String) contents.getTransferData(DataFlavor.stringFlavor);
-		} catch (HeadlessException | IllegalStateException | UnsupportedFlavorException | IOException e) {
-			System.err.println("Couldn't set clipboard content");
+		} catch (UnsupportedFlavorException e) {
+			return null; //non-string clipboard content
+		} catch (HeadlessException | IllegalStateException | IOException e) {
+			System.err.println("Couldn't get clipboard content");
 			e.printStackTrace();
 			return null;
 		}
