@@ -237,23 +237,6 @@ public class Main {
 				} catch (InterruptedException e) { e.printStackTrace(); }
 			}
 		}.start();
-		
-		//This thread calls the java gc every 5 minutes to keep ram usage low
-		new Thread() {
-			@Override
-			public void run() {
-				setPriority(Thread.MIN_PRIORITY);
-				while (true) try {
-					sleep(300000L);
-					synchronized (notes) {
-						if (notes.isEmpty()) return; 
-						else System.gc();
-					}
-				} catch (InterruptedException e) { e.printStackTrace(); }
-			}
-		}.start();
-		
-		System.gc(); // cleanup after starting
 	}
 	
 	
